@@ -4,6 +4,8 @@ export default createGlobalStyle`
 :root {
   --color-main-background: rgb(24,23,28);
   --color-headers-background: rgb(11,10,15);
+  --color-titles: #d0d0d2;
+  --font-family-jost: 'Jost', sans-serif;
 }
 
 html, body, div, span, applet, object, iframe,

@@ -53,7 +53,7 @@ const HomePage = () => {
               filteredGames.map((theGames) => {
                 return (
                   <Game>
-                    <Linkw to={`item/${theGames._id}`}>
+                    <Linkw to={`game/${theGames.id}`}>
                       <Img
                         key={theGames}
                         src={theGames.thumbnail}
@@ -115,14 +115,14 @@ const Img = styled.img`
   max-height: 250px;
   width: auto;
   height: auto;
-  border-radius: 8px;
   margin: 30px;
   margin-bottom: 3px;
 `;
 
 const Name = styled.p`
-  font-family: var(--font-poppins);
-  font-weight: bold;
+  font-family: var(--font-family-jost);
+  color: var(--color-titles);
+  font-weight: normal;
   text-align: center;
   text-size-adjust: auto;
   max-width: 250px;

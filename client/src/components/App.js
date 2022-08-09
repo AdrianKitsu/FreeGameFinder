@@ -5,7 +5,7 @@ import Favorites from "./Favorites";
 import Header from "./Header";
 import GlobalStyles from "./GlobalStyles";
 import FilteringHeader from "./FilteringHeader";
-import SignIn from "./SignIn";
+import Profile from "./Profile";
 import Category from "./Category";
 import PostPage from "./PostPage";
 
@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/games/category/:category" element={<Category />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/post" element={<PostPage />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/profile/:userId" element={<Profile />} />
       </Routes>
     </Router>
   );

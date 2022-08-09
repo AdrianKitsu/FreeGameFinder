@@ -34,15 +34,16 @@ const getGames = async (req, res) => {
 const getGame = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   //changing the req.params to a number
-  const _id = Number(req.params.itemId);
+  const id = Number(req.params.gameId);
+
   try {
     await client.connect();
     const db = client.db("Games");
     //using the number _id to filter for single item
-    const game = await db.collection("allgames").findOne({ _id });
-    //if item was found by id status 200 if not status 404
+    const game = await db.collection("allgames").findOne(id);
+    //if game was found by id status 200 if not status 404
     //return item as a object
-    item
+    game
       ? res
           .status(200)
           .json({ status: 200, data: game, message: "game received" })
@@ -52,7 +53,7 @@ const getGame = async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ status: 500, data: req.body, message: err.message });
+      .json({ status: 500, data: req.body, message: "banana" });
   } finally {
     await client.close();
   }
