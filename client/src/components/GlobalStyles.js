@@ -6,6 +6,7 @@ export default createGlobalStyle`
   --color-headers-background: rgb(11,10,15);
   --color-titles: #d0d0d2;
   --font-family-jost: 'Jost', sans-serif;
+  --very-light-blue: #b3ffff;
 }
 
 html, body, div, span, applet, object, iframe,

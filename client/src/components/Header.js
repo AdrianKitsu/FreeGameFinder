@@ -2,27 +2,36 @@ import styled from "styled-components";
 import LoginButton from "./login-button";
 import LogoutButton from "./logout-button";
 import { useAuth0 } from "@auth0/auth0-react";
-import { IoGameController, IoSearch } from "react-icons/io5";
+import { IoGameController, IoGameControllerSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { SearchBarContext } from "../context/SearchBarContext";
 
 const Header = () => {
   const { isAuthenticated } = useAuth0();
+  const { search, setSearch } = useContext(SearchBarContext);
+  const clearSearch = () => {
+    setSearch("");
+  };
 
   return (
     <>
       <Banner>
         <Logo>
-          <IoGameController size={45} />
+          <LinkHome to="/">
+            <IoGameController size={45} />
+          </LinkHome>
         </Logo>
-        {/* <SearchContainer>
+        <SearchContainer>
           <SearchBar
             className="input"
             onChange={(e) => {
               setSearch(e.target.value.toLowerCase());
             }}
             value={search}
-            placeholder={<IoSearch size={15} />}
+            placeholder={"Search for a Game"}
           ></SearchBar>
-        </SearchContainer> */}
+        </SearchContainer>
         <Login className="justify-content-end">
           {isAuthenticated ? <LogoutButton /> : <LoginButton />}
         </Login>
@@ -34,11 +43,23 @@ const Header = () => {
 export default Header;
 
 const Banner = styled.div`
+  display: flex;
   height: 70px;
+  width: 100%;
   background-color: var(--color-headers-background);
 `;
 
-const Logo = styled.div``;
+const Logo = styled.text`
+  width: max-content;
+  height: max-content;
+  margin-top: 12px;
+  margin-left: 10px;
+  transition: transform 300ms;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
 
 const SearchBar = styled.input`
   height: 30px;
@@ -47,16 +68,33 @@ const SearchBar = styled.input`
   margin-top: 10px;
   border-radius: 10px;
   border-style: none;
-  margin-left: 10px;
   padding-left: 10px;
   width: 25vw;
+  :focus {
+    box-shadow: 0px 0px 24px 2px rgba(255, 255, 255, 0.2);
+  }
 `;
 
 const SearchContainer = styled.div`
   display: flex;
-  vertical-align: middle;
+  justify-content: center;
   align-items: center;
   margin-left: auto;
+  margin-right: auto;
+  margin-top: -7px;
 `;
 
-const Login = styled.div``;
+const Login = styled.div`
+  position: absolute right;
+  margin-top: 25px;
+  margin-right: 20px;
+`;
+
+const LinkHome = styled(Link)`
+  text-decoration: none;
+  color: white;
+  height: fit-content;
+  :hover {
+    color: var(--very-light-blue);
+  }
+`;

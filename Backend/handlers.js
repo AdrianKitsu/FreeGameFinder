@@ -40,7 +40,7 @@ const getGame = async (req, res) => {
     await client.connect();
     const db = client.db("Games");
     //using the number _id to filter for single item
-    const game = await db.collection("allgames").findOne(id);
+    const game = await db.collection("allgames").findOne({ id });
     //if game was found by id status 200 if not status 404
     //return item as a object
     game

@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AiFillCheckCircle } from "react-icons/ai";
-import { IoRefresh } from "react-icons/io5";
-import ReactCrop from "react-image-crop";
+import { IoGameController } from "react-icons/io5";
+import { HiEmojiHappy, HiEmojiSad } from "react-icons/hi";
 
 const GamePage = () => {
   //hardcoded userName
   // const user = "Marie";
 
   //Id is from path="/item/:item"
-  const gameId = useParams();
-  console.log(gameId);
+  const gameId = useParams().game;
 
   const [game, setGame] = useState(null);
+  const [status, setStatus] = useState("loading");
 
   const navigate = useNavigate();
 
@@ -25,12 +24,22 @@ const GamePage = () => {
         .then((data) => {
           if (data.status === 200) {
             setGame(data.data);
-            console.log("asas", data.data);
+            setStatus("idle");
           }
         })
         .catch((error) => console.log(error));
     }
   }, [gameId]);
+
+  if (status === "loading") {
+    return (
+      <LoadPage>
+        <Icon>
+          <IoGameController size={"80px"} />
+        </Icon>
+      </LoadPage>
+    );
+  }
 
   //when pressing the add button
   // const addIntoCart = () => {
@@ -60,13 +69,165 @@ const GamePage = () => {
     <>
       <Wrapper>
         <Game>
-          <Img key={game.id} src={game.thumbnail} alt={game.title} />
-          <Name>{game.title}</Name>
+          <TopPart>
+            <Img key={game.id} src={game.thumbnail} alt={game.title} />
+            <Name>{game.title}</Name>
+            {/* <FavLike>
+              <li>
+                <ul>
+                  <HiEmojiHappy size={"23px"} color={`var(--color-titles)`} />
+                </ul>
+                <ul>
+                  <HiEmojiSad size={"23px"} color={`var(--color-titles)`} />
+                </ul>
+              </li>
+            </FavLike> */}
+          </TopPart>
+          <Container>
+            <Desc>
+              <li>
+                <Ab>About</Ab>
+                <Des>{game.short_description}</Des>
+              </li>
+            </Desc>
+            <Info>
+              <Title>
+                <li>
+                  <Word>Title</Word>
+                  <G>{game.title}</G>
+                </li>
+              </Title>
+              <Dev>
+                <li>
+                  <Word>Developer</Word>
+                  <G>{game.developer}</G>
+                </li>
+              </Dev>
+              <Pub>
+                <li>
+                  <Word>Publisher</Word>
+                  <G>{game.publisher}</G>
+                </li>
+              </Pub>
+              <Genre>
+                <li>
+                  <Word>Genre</Word>
+                  <G>{game.genre}</G>
+                </li>
+              </Genre>
+              <ReleaseDate>
+                <li>
+                  <Word>Release Date</Word>
+                  <G>{game.release_date}</G>
+                </li>
+              </ReleaseDate>
+            </Info>
+          </Container>
         </Game>
       </Wrapper>
     </>
   );
 };
+
+const Container = styled.div``;
+
+const TopPart = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+`;
+
+const FavLike = styled.div`
+  margin-top: 80px;
+  margin-left: -245px;
+  li {
+    list-style: none;
+  }
+  ul {
+    display: inline;
+    margin-right: 5px;
+  }
+`;
+
+const Info = styled.div`
+  display: grid;
+  margin-top: 20px;
+  row-gap: 10px;
+  max-width: 390px;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Word = styled.ul`
+  font-family: var(--font-family-jost);
+  color: #57575b;
+`;
+
+const Ab = styled.ul`
+  font-family: var(--font-family-jost);
+  font-size: 25px;
+  color: #57575b;
+`;
+
+const Des = styled.ul`
+  font-family: var(--font-family-jost);
+  font-size: 18px;
+  text-overflow: auto;
+  color: var(--color-titles);
+`;
+
+const G = styled.ul`
+  font-family: var(--font-family-jost);
+  color: var(--color-titles);
+  font-size: 14px;
+`;
+
+const ReleaseDate = styled.div`
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
+
+const Title = styled.div`
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
+
+const Pub = styled.div`
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
+
+const Genre = styled.div`
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
+
+const Dev = styled.div`
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
+
+const Desc = styled.div`
+  max-width: 500px;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  li {
+    list-style: none;
+    font-size: 14px;
+  }
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -91,11 +252,11 @@ const Game = styled.div`
 const Img = styled.img`
   display: flex;
   align-items: center;
-  max-width: 1000px;
-  max-height: 250px;
+  max-width: 250px;
+  max-height: 200px;
   width: auto;
   height: auto;
-  margin: 30px;
+  margin-top: 40px;
   margin-bottom: 3px;
 `;
 
@@ -104,9 +265,11 @@ const Name = styled.p`
   color: var(--color-titles);
   font-weight: normal;
   text-align: center;
+  font-size: 28px;
+  margin-top: 40px;
   text-size-adjust: auto;
   max-width: 250px;
-  margin-left: 50px;
+  margin-left: 10px;
 `;
 const Label = styled.label``;
 

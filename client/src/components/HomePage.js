@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { IoRefresh } from "react-icons/io5";
+import { IoGameController } from "react-icons/io5";
 import { SearchBarContext } from "../context/SearchBarContext";
+import FilteringHeader from "./FilteringHeader";
 
 // Project Completed
 
@@ -12,12 +13,17 @@ const HomePage = () => {
   //get search state variable that was set by searchbar from useContext
   const { search } = useContext(SearchBarContext);
 
-  // get all items
+  // load more games on homepage
+  const [noOfElements, setNoOfElements] = useState(6);
+  const loadMore = () => {
+    setNoOfElements(noOfElements + noOfElements);
+  };
+
+  // get all games
   useEffect(() => {
     fetch(`/api/games`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setGames(data.data);
         setStatus("idle");
       });
@@ -27,7 +33,7 @@ const HomePage = () => {
     return (
       <LoadPage>
         <Icon>
-          <IoRefresh size={"80px"} />
+          <IoGameController size={"80px"} />
         </Icon>
       </LoadPage>
     );
@@ -40,6 +46,8 @@ const HomePage = () => {
     }
   });
 
+  const slice = filteredGames.slice(0, noOfElements);
+
   return (
     <>
       <Container>
@@ -50,7 +58,7 @@ const HomePage = () => {
               <Oops>looks like nothing matches your search...</Oops>
             ) : (
               //display items based on what is serached in search bar will show everything if nothing is typed
-              filteredGames.map((theGames) => {
+              slice.map((theGames) => {
                 return (
                   <Game>
                     <Linkw to={`game/${theGames.id}`}>
@@ -67,12 +75,49 @@ const HomePage = () => {
             )
           }
         </Wrapper>
+        <LoadBtn onClick={loadMore}>
+          <p>Load More</p>
+        </LoadBtn>
+        <Posts>Posts</Posts>
       </Container>
     </>
   );
 };
 
 export default HomePage;
+
+const LoadBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  max-width: 1000px;
+  width: auto;
+  height: 30px;
+  color: var(--color-titles);
+  p {
+    font-family: var(--font-family-jost);
+    font-size: 18px;
+    color: var(--color-main-background);
+  }
+  transition: transform 250ms, box-shadow 0.25s ease-in-out;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0px 0px 24px 2px rgba(255, 255, 255, 0.2);
+  }
+`;
+
+const Posts = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  font-family: var(--font-family-jost);
+  color: var(--color-titles);
+  font-size: 26px;
+`;
 
 const Container = styled.div`
   background-color: var(--color-main-background);
@@ -84,18 +129,25 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: grid;
   justify-content: center;
-  grid-template-columns: 250px 250px 300px;
-  row-gap: 10px;
-  grid-gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: auto auto auto;
+  margin-top: 25px;
+  grid-gap: 40px;
+  @media (max-width: 1190px) {
+    grid-template-columns: auto auto;
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: auto;
+  }
 `;
 
 const Game = styled.div`
-  max-width: fit-content;
-  max-height: fit-content;
-  transition: transform 250ms, opacity 0.25s ease-in-out;
+  width: fit-content;
+  transition: transform 250ms, box-shadow 0.25s ease-in-out,
+    background-color 0.25s ease-in-out;
   :hover {
+    box-shadow: 0px 0px 24px 2px rgba(255, 255, 255, 0.2);
     transform: translateY(-7px);
+    background-color: var(--color-headers-background);
   }
 `;
 
@@ -103,6 +155,7 @@ const Linkw = styled(Link)`
   text-decoration: none;
   color: black;
   width: max-content;
+
   :hover {
     cursor: pointer;
   }
@@ -115,7 +168,6 @@ const Img = styled.img`
   max-height: 250px;
   width: auto;
   height: auto;
-  margin: 30px;
   margin-bottom: 3px;
 `;
 
@@ -125,8 +177,6 @@ const Name = styled.p`
   font-weight: normal;
   text-align: center;
   text-size-adjust: auto;
-  max-width: 250px;
-  margin-left: 50px;
 `;
 
 const LoadPage = styled.div`
