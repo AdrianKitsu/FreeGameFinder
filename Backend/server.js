@@ -3,7 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const PORT = 8000;
 
-const { getGames, getGame } = require("./handlers");
+const { getGames, getGame, getUser } = require("./handlers");
+const { favsList } = require("./FavoritesHandler");
 
 express()
   .use(function (req, res, next) {
@@ -30,6 +31,12 @@ express()
   .get("/api/games", getGames)
 
   .get("/api/game/:gameId", getGame)
+
+  .get("/api/:user/favorites", favsList)
+
+  .post("/api/user", getUser)
+
+  .patch("/api/:user/favorites", favsList)
 
   .get("*", (req, res) => {
     res.status(404).json({

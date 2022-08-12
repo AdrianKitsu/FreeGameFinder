@@ -3,11 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoGameController } from "react-icons/io5";
 import { HiEmojiHappy, HiEmojiSad } from "react-icons/hi";
+import AddFavorites from "./AddFavorites";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const GamePage = () => {
   //hardcoded userName
-  // const user = "Marie";
-
+  const { user } = useAuth0();
+  console.log(user);
+  // const [favorited, setFavorite] = useState(user.);
   //Id is from path="/item/:item"
   const gameId = useParams().game;
 
@@ -41,29 +44,29 @@ const GamePage = () => {
     );
   }
 
-  //when pressing the add button
-  // const addIntoCart = () => {
+  // // when pressing the add button
+  const addFavs = (gameTitle) => {
+    let id = user.email.toString();
 
-  //   // POST request : create cart
-  //   fetch(`/api/cart/${user}`, {
-  //     method: "POST",
-  //     body: JSON.stringify({ ...item, quantity }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.status === 200) {
-  //         setMessage(true);
-  //         setTimeout(() => {
-  //           setMessage(false);
-  //           navigate("/");
-  //         }, 1000);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // };
+    fetch(`/api/${id}/favorites`, {
+      method: "PATCH",
+      body: JSON.stringify({ title: gameTitle }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // if (data.status === 200) {
+        //   setMessage(true);
+        //   setTimeout(() => {
+        //     setMessage(false);
+        //     navigate("/");
+        //   }, 1000);
+        // }
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   return (
     <>
@@ -72,16 +75,13 @@ const GamePage = () => {
           <TopPart>
             <Img key={game.id} src={game.thumbnail} alt={game.title} />
             <Name>{game.title}</Name>
-            {/* <FavLike>
-              <li>
-                <ul>
-                  <HiEmojiHappy size={"23px"} color={`var(--color-titles)`} />
-                </ul>
-                <ul>
-                  <HiEmojiSad size={"23px"} color={`var(--color-titles)`} />
-                </ul>
-              </li>
-            </FavLike> */}
+            <FavLike
+              onClick={() => {
+                addFavs(game.title);
+              }}
+            >
+              <AddFavorites />
+            </FavLike>
           </TopPart>
           <Container>
             <Desc>
@@ -129,6 +129,14 @@ const GamePage = () => {
   );
 };
 
+const FavButton = styled.button`
+  background-color: var(--color-main-background);
+  border-style: none;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const Container = styled.div``;
 
 const TopPart = styled.div`
@@ -136,15 +144,14 @@ const TopPart = styled.div`
   margin-bottom: 30px;
 `;
 
-const FavLike = styled.div`
-  margin-top: 80px;
-  margin-left: -245px;
-  li {
-    list-style: none;
-  }
-  ul {
-    display: inline;
-    margin-right: 5px;
+const FavLike = styled.button`
+  height: fit-content;
+  background-color: var(--color-main-background);
+  border-style: none;
+  margin-top: 90px;
+  margin-left: -20px;
+  :hover {
+    cursor: pointer;
   }
 `;
 

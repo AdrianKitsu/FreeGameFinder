@@ -59,4 +59,27 @@ const getGame = async (req, res) => {
   }
 };
 
-module.exports = { getGames, getGame };
+const getUser = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  //changing the req.params to a number
+  const { email } = req.body;
+
+  try {
+    await client.connect();
+    const db = client.db("Games");
+    //using the number _id to filter for single item
+    const user = await db.collection("users").findOne({ email });
+
+    user
+      ? res.status(200).json({ status: 200, data: user, message: "user found" })
+      : res.status(404).json({ status: 404, messsage: "user not found" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: 500, data: req.body, message: "banana" });
+  } finally {
+    await client.close();
+  }
+};
+
+module.exports = { getGames, getGame, getUser };
