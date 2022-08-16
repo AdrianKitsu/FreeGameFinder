@@ -19,15 +19,15 @@ export default LoginButton;
 
 const Button = styled.button`
   background-color: var(--color-headers-background);
-  color: var(--color-titles);
-  border-color: var(--color-titles);
+  color: white;
+  border-color: white;
   border: solid 1px;
   border-radius: 4px;
-  transition: transform 250ms;
+  transition: transform 250ms, box-shadow 0.25s;
   :hover {
     cursor: pointer;
-    box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    box-shadow: 0px 0px 7px 1px rgba(255, 255, 255, 0.2);
+    transform: scale(1.06);
   }
 `;
 

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
 import LoginButton from "./login-button";
 import LogoutButton from "./logout-button";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -85,10 +85,10 @@ const LinkProfile = styled(Link)`
   color: white;
   height: fit-content;
   font-family: var(--font-family-jost);
-  transition: transform 250ms;
+  transition: transform 250ms, text-shadow 0.25s;
   :hover {
-    color: var(--very-light-blue);
-    transform: scale(1.1);
+    text-shadow: 0 0 3px #d0d0d2, 0px 0px 15px rgba(255, 255, 255, 0.3);
+    transform: scale(1.07);
   }
 `;
 
@@ -107,7 +107,7 @@ const Logo = styled.div`
   transition: transform 300ms;
   :hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 `;
 
@@ -144,7 +144,4 @@ const LinkHome = styled(Link)`
   text-decoration: none;
   color: white;
   height: fit-content;
-  :hover {
-    color: var(--very-light-blue);
-  }
 `;

@@ -70,8 +70,10 @@ const Wrapper = styled.div`
     font-family: var(--font-family-jost);
     list-style: none;
     color: var(--color-titles);
+    transition: transform 250ms, text-shadow 0.25s;
     :hover {
       transform: scale(1.1);
+      text-shadow: 0 0 1px #fff, 0px 0px 4px rgba(255, 255, 255, 0.3);
     }
   }
 `;
