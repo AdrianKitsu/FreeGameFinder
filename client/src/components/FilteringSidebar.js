@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
-const FilteringHeader = () => {
+const FilteringSidebar = () => {
   return (
     <>
       <Wrapper>
@@ -11,7 +11,7 @@ const FilteringHeader = () => {
   );
 };
 
-export default FilteringHeader;
+export default FilteringSidebar;
 
 const Wrapper = styled.div`
   height: 100%;

@@ -2,11 +2,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { SearchBarContext } from "../context/SearchBarContext";
 import { UserContext } from "../context/UserContext";
 
 const UserFavs = () => {
   const { isAuthenticated } = useAuth0();
   const { currentUser } = useContext(UserContext);
+  const { search, setSearch } = useContext(SearchBarContext);
+  const clearSearch = () => {
+    setSearch("");
+  };
 
   if (isAuthenticated) {
     return (
@@ -16,7 +21,7 @@ const UserFavs = () => {
           <Div />
           {currentUser?.favorites.map((favs) => {
             return (
-              <li>
+              <li onClick={clearSearch}>
                 <LinkGame to={`/game/${favs?.id}`}>{favs?.title}</LinkGame>
               </li>
             );

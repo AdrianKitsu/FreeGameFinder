@@ -20,7 +20,7 @@ const Header = () => {
     return (
       <>
         <Banner>
-          <Logo>
+          <Logo onClick={clearSearch}>
             <LinkHome to="/">
               <IoGameController size={45} />
             </LinkHome>
@@ -35,7 +35,7 @@ const Header = () => {
               placeholder={"Search for a Game"}
             ></SearchBar>
           </SearchContainer>
-          <Login className="justify-content-end">
+          <Login className="justify-content-end" onClick={clearSearch}>
             {isAuthenticated ? <LogoutButton /> : <LoginButton />}
           </Login>
         </Banner>
@@ -45,7 +45,7 @@ const Header = () => {
     return (
       <>
         <Banner>
-          <Logo>
+          <Logo onClick={clearSearch}>
             <LinkHome to="/">
               <IoGameController size={45} />
             </LinkHome>
@@ -61,6 +61,7 @@ const Header = () => {
             ></SearchBar>
           </SearchContainer>
           <LinkProfile
+            onClick={clearSearch}
             to={`/user/`}
             style={isAuthenticated ? { display: "block" } : { display: "none" }}
           >

@@ -2,14 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoGameController } from "react-icons/io5";
-import { HiEmojiHappy, HiEmojiSad } from "react-icons/hi";
 import AddFavorites from "./AddFavorites";
-import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../context/UserContext";
 
 const GamePage = () => {
-  //get current user
-  const { isAuthenticated } = useAuth0();
   //gameId is from path="/game/:game"
   const gameId = useParams().game;
   const { currentUser, setCurrentUser } = useContext(UserContext);

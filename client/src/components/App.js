@@ -3,11 +3,10 @@ import HomePage from "./HomePage";
 import GamePage from "./GamePage";
 import Header from "./Header";
 import GlobalStyles from "./GlobalStyles";
-import FilteringHeader from "./FilteringHeader";
+import FilteringSidebar from "./FilteringSidebar";
 import Profile from "./Profile";
 import Category from "./Category";
-import PostPage from "./PostPage";
-import UserFavs from "./userFavs";
+import UserFavs from "./UserFavs";
 import GenresHeader from "./GenresHeader";
 
 const App = () => {
@@ -16,13 +15,12 @@ const App = () => {
       <GlobalStyles />
       <Header />
       <GenresHeader />
-      <FilteringHeader />
+      <FilteringSidebar />
       <UserFavs />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/game/:game" element={<GamePage />} />
         <Route path="/games/:genre" element={<Category />} />
-        <Route path="/post" element={<PostPage />} />
         <Route path="/user/" element={<Profile />} />
       </Routes>
     </Router>

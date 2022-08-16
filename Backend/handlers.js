@@ -111,7 +111,6 @@ const getGameByGenre = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   //changing the req.params to a number
   const genre = req.params.genre;
-  console.log(genre);
 
   try {
     await client.connect();
@@ -120,7 +119,6 @@ const getGameByGenre = async (req, res) => {
       .collection("allgames")
       .find({ genre: genre })
       .toArray();
-    console.log(gameGenre);
 
     gameGenre.length > 0
       ? res.status(200).json({

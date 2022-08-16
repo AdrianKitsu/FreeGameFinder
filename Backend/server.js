@@ -16,6 +16,7 @@ const {
   getGameByGenre,
 } = require("./handlers");
 const { favsList } = require("./FavoritesHandler");
+const { getPosts } = require("./postsHandlers");
 
 express()
   .use(function (req, res, next) {

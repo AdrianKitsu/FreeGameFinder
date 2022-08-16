@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { IoGameController } from "react-icons/io5";
 import { SearchBarContext } from "../context/SearchBarContext";
+import AllPosts from "./AllPosts";
 
 // Project Completed
 
@@ -15,9 +16,9 @@ const HomePage = () => {
     setSearch("");
   };
   // load more games on homepage
-  const [noOfElements, setNoOfElements] = useState(6);
+  const [noOfElements, setNoOfElements] = useState(4);
   const loadMore = () => {
-    setNoOfElements(noOfElements + noOfElements);
+    setNoOfElements(noOfElements + 4);
   };
 
   // get all games
@@ -91,6 +92,7 @@ const HomePage = () => {
           <p>Load More</p>
         </LoadBtn>
         <Posts>Posts</Posts>
+        <AllPosts />
       </Container>
     </>
   );

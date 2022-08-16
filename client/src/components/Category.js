@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams, NavLink } from "react-router-dom";
 import { IoGameController } from "react-icons/io5";
 import { SearchBarContext } from "../context/SearchBarContext";
+import AllPosts from "./AllPosts";
 
 const Category = () => {
   const { genre } = useParams();
@@ -16,7 +17,7 @@ const Category = () => {
   // load more games on homepage
   const [noOfElements, setNoOfElements] = useState(4);
   const loadMore = () => {
-    setNoOfElements(noOfElements + noOfElements);
+    setNoOfElements(noOfElements + 4);
   };
 
   useEffect(() => {
@@ -88,6 +89,7 @@ const Category = () => {
           <p>Load More</p>
         </LoadBtn>
         <Posts>Posts</Posts>
+        <AllPosts />
       </Container>
     </>
   );
