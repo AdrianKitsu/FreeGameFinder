@@ -9,38 +9,87 @@ import { SearchBarContext } from "../context/SearchBarContext";
 
 const Header = () => {
   const { isAuthenticated } = useAuth0();
+
   const { search, setSearch } = useContext(SearchBarContext);
+
   const clearSearch = () => {
     setSearch("");
   };
 
-  return (
-    <>
-      <Banner>
-        <Logo>
-          <LinkHome to="/">
-            <IoGameController size={45} />
-          </LinkHome>
-        </Logo>
-        <SearchContainer>
-          <SearchBar
-            className="input"
-            onChange={(e) => {
-              setSearch(e.target.value.toLowerCase());
-            }}
-            value={search}
-            placeholder={"Search for a Game"}
-          ></SearchBar>
-        </SearchContainer>
-        <Login className="justify-content-end">
-          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        </Login>
-      </Banner>
-    </>
-  );
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Banner>
+          <Logo>
+            <LinkHome to="/">
+              <IoGameController size={45} />
+            </LinkHome>
+          </Logo>
+          <SearchContainer>
+            <SearchBar
+              className="input"
+              onChange={(e) => {
+                setSearch(e.target.value.toLowerCase());
+              }}
+              value={search}
+              placeholder={"Search for a Game"}
+            ></SearchBar>
+          </SearchContainer>
+          <Login className="justify-content-end">
+            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          </Login>
+        </Banner>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Banner>
+          <Logo>
+            <LinkHome to="/">
+              <IoGameController size={45} />
+            </LinkHome>
+          </Logo>
+          <SearchContainer>
+            <SearchBar
+              className="input"
+              onChange={(e) => {
+                setSearch(e.target.value.toLowerCase());
+              }}
+              value={search}
+              placeholder={"Search for a Game"}
+            ></SearchBar>
+          </SearchContainer>
+          <LinkProfile
+            to={`/user/`}
+            style={isAuthenticated ? { display: "block" } : { display: "none" }}
+          >
+            Profile
+          </LinkProfile>
+          <Login className="justify-content-end">
+            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          </Login>
+        </Banner>
+      </>
+    );
+  }
 };
 
 export default Header;
+
+const LinkProfile = styled(Link)`
+  margin-top: 28px;
+  margin-right: 15px;
+  text-decoration: none;
+  color: white;
+  height: fit-content;
+  font-family: var(--font-family-jost);
+  transition: transform 250ms;
+  :hover {
+    color: var(--very-light-blue);
+    transform: scale(1.1);
+  }
+`;
 
 const Banner = styled.div`
   display: flex;
@@ -49,7 +98,7 @@ const Banner = styled.div`
   background-color: var(--color-headers-background);
 `;
 
-const Logo = styled.text`
+const Logo = styled.div`
   width: max-content;
   height: max-content;
   margin-top: 12px;

@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const FilteringHeader = () => {
-  const [click, setClick] = useState(false);
-
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
-
   return (
     <>
       <Wrapper>
@@ -24,9 +19,13 @@ const Wrapper = styled.div`
   width: 160px;
   position: absolute;
   margin-right: 30px;
+  left: 0px;
   color: white;
   background-color: var(--color-headers-background);
   font-family: var(--font-family-jost);
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;

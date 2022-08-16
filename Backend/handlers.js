@@ -82,4 +82,64 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { getGames, getGame, getUser };
+const getCurrentUser = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  //changing the req.params to a number
+  const { user } = req.params;
+
+  try {
+    await client.connect();
+    const db = client.db("Games");
+    //using the number _id to filter for single item
+    const currentUser = await db.collection("users").findOne({ email: user });
+
+    currentUser
+      ? res
+          .status(200)
+          .json({ status: 200, data: currentUser, message: "user found" })
+      : res.status(404).json({ status: 404, messsage: "user not found" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: 500, data: req.body, message: "Error" });
+  } finally {
+    await client.close();
+  }
+};
+
+const getGameByGenre = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  //changing the req.params to a number
+  const genre = req.params.genre;
+  console.log(genre);
+
+  try {
+    await client.connect();
+    const db = client.db("Games");
+    const gameGenre = await db
+      .collection("allgames")
+      .find({ genre: genre })
+      .toArray();
+    console.log(gameGenre);
+
+    gameGenre.length > 0
+      ? res.status(200).json({
+          status: 200,
+          data: gameGenre,
+          message: `items filtered by ${genre} `,
+        })
+      : res.status(404).json({
+          status: 404,
+          data: gameGenre,
+          message: `Could not find items by category: ${genre}`,
+        });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: 500, data: req.body, message: "Game Genre Error" });
+  } finally {
+    await client.close();
+  }
+};
+
+module.exports = { getGames, getGame, getUser, getCurrentUser, getGameByGenre };

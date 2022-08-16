@@ -7,21 +7,23 @@ import FilteringHeader from "./FilteringHeader";
 import Profile from "./Profile";
 import Category from "./Category";
 import PostPage from "./PostPage";
-import FavoritesList from "./FavoritesList";
+import UserFavs from "./userFavs";
+import GenresHeader from "./GenresHeader";
 
 const App = () => {
   return (
     <Router>
       <GlobalStyles />
       <Header />
+      <GenresHeader />
       <FilteringHeader />
+      <UserFavs />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/game/:game" element={<GamePage />} />
-        <Route path="/games/category/:category" element={<Category />} />
-        <Route path="/:user/favorites" element={<FavoritesList />} />
+        <Route path="/games/:genre" element={<Category />} />
         <Route path="/post" element={<PostPage />} />
-        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/user/" element={<Profile />} />
       </Routes>
     </Router>
   );

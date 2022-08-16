@@ -13,36 +13,30 @@ const favsList = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
 
   const { user } = req.params;
-  const { title } = req.body;
+  const { title, id, favorited, url } = req.body;
 
   try {
     await client.connect();
     const db = client.db("Games");
-    // finding their favs based on user
-    let usersList = await db
-      .collection("users")
-      .updateOne({ email: user }, { $push: { favorites: title } });
 
-    //if list does not exist for user
-    // if (!usersList) {
-    //   //no cart exist for user, must create new cart
-    //   //inserting a new item into cart
-    //   favorites = await db.collection("favorites").updateOne({
-    //     _id,
-    //     user,
-    //     favoritedGame: [req.body],
-    //   });
-
-    //   return res.status(200).json({
-    //     status: 200,
-    //     data: favorites,
-    //     message: "Game added to Favorites",
-    //   });
-    // }
-
-    return res
-      .status(200)
-      .json({ status: 200, message: "Game added to Favorites" });
+    if (favorited) {
+      await db
+        .collection("users")
+        .updateOne({ email: user }, { $pull: { favorites: { title, id } } });
+      return res
+        .status(200)
+        .json({ status: 200, message: "Game removed to Favorites" });
+    } else {
+      await db
+        .collection("users")
+        .updateOne(
+          { email: user },
+          { $push: { favorites: { title, id, url } } }
+        );
+      return res
+        .status(200)
+        .json({ status: 200, message: "Game added to Favorites" });
+    }
   } catch (err) {
     console.log(err.stack);
     return res

@@ -34,7 +34,7 @@ const Button = styled.button`
   }
 `;
 
-const P = styled.text`
+const P = styled.div`
   padding: 4px;
   font-family: var(--font-family-jost);
 `;

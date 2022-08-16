@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { IoGameController } from "react-icons/io5";
 import { SearchBarContext } from "../context/SearchBarContext";
-import FilteringHeader from "./FilteringHeader";
 
 // Project Completed
 
@@ -11,8 +10,10 @@ const HomePage = () => {
   const [games, setGames] = useState();
   const [status, setStatus] = useState("loading");
   //get search state variable that was set by searchbar from useContext
-  const { search } = useContext(SearchBarContext);
-
+  const { search, setSearch } = useContext(SearchBarContext);
+  const clearSearch = () => {
+    setSearch("");
+  };
   // load more games on homepage
   const [noOfElements, setNoOfElements] = useState(6);
   const loadMore = () => {
@@ -54,13 +55,24 @@ const HomePage = () => {
         <Wrapper>
           {
             //if the filteredItems array has no items tell the user
-            filteredGames.length === 0 ? (
-              <Oops>looks like nothing matches your search...</Oops>
+            slice.length === 0 ? (
+              <Oops
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontFamily: `var(--font-family-jost)`,
+                  color: `var(--color-titles)`,
+                  fontSize: "26px",
+                }}
+              >
+                Looks like nothing matches your search...
+              </Oops>
             ) : (
               //display items based on what is serached in search bar will show everything if nothing is typed
               slice.map((theGames) => {
                 return (
-                  <Game>
+                  <Game onClick={clearSearch}>
                     <Linkw to={`game/${theGames.id}`}>
                       <Img
                         key={theGames}
@@ -184,8 +196,8 @@ const LoadPage = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: var(--color-main-blue);
-  background-color: var(--color-main-brown);
+  color: var(--color-headers-background);
+  background-color: var(--color-main-background);
 `;
 
 const Icon = styled.div`

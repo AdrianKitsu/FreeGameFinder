@@ -1,38 +1,45 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoGameController } from "react-icons/io5";
 import { HiEmojiHappy, HiEmojiSad } from "react-icons/hi";
 import AddFavorites from "./AddFavorites";
 import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../context/UserContext";
 
 const GamePage = () => {
-  //hardcoded userName
-  const { user } = useAuth0();
-  console.log(user);
-  // const [favorited, setFavorite] = useState(user.);
-  //Id is from path="/item/:item"
+  //get current user
+  const { isAuthenticated } = useAuth0();
+  //gameId is from path="/game/:game"
   const gameId = useParams().game;
-
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [game, setGame] = useState(null);
   const [status, setStatus] = useState("loading");
 
-  const navigate = useNavigate();
+  const [favorited, setFavorited] = useState(
+    currentUser?.favorites.some((fav) => {
+      return fav.id === gameId;
+    })
+  );
 
-  //when itemPage is opened, fetch get getItem
   useEffect(() => {
-    if (gameId) {
+    if (gameId || currentUser) {
       fetch(`/api/game/${gameId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
             setGame(data.data);
             setStatus("idle");
+            setFavorited(
+              currentUser?.favorites.some((fav) => {
+                return fav.id === gameId;
+              })
+            );
           }
         })
         .catch((error) => console.log(error));
     }
-  }, [gameId]);
+  }, [currentUser]);
 
   if (status === "loading") {
     return (
@@ -45,25 +52,45 @@ const GamePage = () => {
   }
 
   // // when pressing the add button
-  const addFavs = (gameTitle) => {
-    let id = user.email.toString();
 
-    fetch(`/api/${id}/favorites`, {
+  const addFavs = (gameTitle) => {
+    let UserId = currentUser.email;
+
+    fetch(`/api/${UserId}/favorites`, {
       method: "PATCH",
-      body: JSON.stringify({ title: gameTitle }),
+      body: JSON.stringify({
+        title: gameTitle,
+        id: gameId,
+        favorited,
+        url: game.thumbnail,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        // if (data.status === 200) {
-        //   setMessage(true);
-        //   setTimeout(() => {
-        //     setMessage(false);
-        //     navigate("/");
-        //   }, 1000);
-        // }
+        if (data.status === 200) {
+          setFavorited(!favorited);
+          if (!favorited) {
+            setCurrentUser({
+              ...currentUser,
+              favorites: [
+                ...currentUser?.favorites,
+                { title: gameTitle, id: gameId, url: game.thumbnail },
+              ],
+            });
+          } else {
+            let copyFavorites = [...currentUser?.favorites];
+            const removedGame = copyFavorites.filter((fav) => {
+              return fav.id !== gameId;
+            });
+            setCurrentUser({
+              ...currentUser,
+              favorites: removedGame,
+            });
+          }
+        }
       })
       .catch((err) => console.log(err.message));
   };
@@ -74,14 +101,17 @@ const GamePage = () => {
         <Game>
           <TopPart>
             <Img key={game.id} src={game.thumbnail} alt={game.title} />
-            <Name>{game.title}</Name>
-            <FavLike
-              onClick={() => {
-                addFavs(game.title);
-              }}
-            >
-              <AddFavorites />
-            </FavLike>
+            <Div>
+              <Name>{game.title}</Name>
+              <FavLike
+                style={favorited ? { color: "yellow" } : { color: "black" }}
+                onClick={() => {
+                  addFavs(game.title);
+                }}
+              >
+                <AddFavorites />
+              </FavLike>
+            </Div>
           </TopPart>
           <Container>
             <Desc>
@@ -129,14 +159,6 @@ const GamePage = () => {
   );
 };
 
-const FavButton = styled.button`
-  background-color: var(--color-main-background);
-  border-style: none;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 const Container = styled.div``;
 
 const TopPart = styled.div`
@@ -144,14 +166,23 @@ const TopPart = styled.div`
   margin-bottom: 30px;
 `;
 
+const Div = styled.div`
+  display: column;
+`;
+
 const FavLike = styled.button`
+  display: flex;
+  justify-content: center;
+  margin-right: auto;
   height: fit-content;
   background-color: var(--color-main-background);
   border-style: none;
-  margin-top: 90px;
-  margin-left: -20px;
+  margin-top: 15px;
+  margin-left: auto;
+  transition: transform 250ms;
   :hover {
     cursor: pointer;
+    transform: scale(1.3);
   }
 `;
 
@@ -278,28 +309,14 @@ const Name = styled.p`
   max-width: 250px;
   margin-left: 10px;
 `;
-const Label = styled.label``;
-
-const Input = styled.input`
-  width: 30px;
-  height: 14px;
-  margin-left: 10px;
-  font-size: 13px;
-`;
-
-const CartMessage = styled.div`
-  color: var(--color-point-pink);
-  background-color: var(--color-main-white);
-  font-size: 16px;
-`;
 
 const LoadPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: var(--color-main-blue);
-  background-color: var(--color-main-brown);
+  color: var(--color-headers-background);
+  background-color: var(--color-main-background);
 `;
 
 const Icon = styled.div`

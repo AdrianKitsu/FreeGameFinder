@@ -3,7 +3,18 @@ const express = require("express");
 const morgan = require("morgan");
 const PORT = 8000;
 
-const { getGames, getGame, getUser } = require("./handlers");
+require("dotenv").config();
+
+const { MONGO_URI } = process.env;
+const API_KEY = process.env.API_KEY;
+
+const {
+  getGames,
+  getGame,
+  getUser,
+  getCurrentUser,
+  getGameByGenre,
+} = require("./handlers");
 const { favsList } = require("./FavoritesHandler");
 
 express()
@@ -34,7 +45,11 @@ express()
 
   .get("/api/:user/favorites", favsList)
 
-  .post("/api/user", getUser)
+  .get("/api/user/:user", getCurrentUser)
+
+  .get("/api/games/:genre", getGameByGenre)
+
+  .post("/api/:user", getUser)
 
   .patch("/api/:user/favorites", favsList)
 
