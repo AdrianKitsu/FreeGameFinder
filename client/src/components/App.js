@@ -15,7 +15,7 @@ const App = () => {
       <GlobalStyles />
       <Header />
       <GenresHeader />
-      <FilteringSidebar />
+      {/* <FilteringSidebar /> */}
       <UserFavs />
       <Routes>
         <Route path="/" element={<HomePage />} />

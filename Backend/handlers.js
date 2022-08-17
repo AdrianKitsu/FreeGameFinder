@@ -97,7 +97,9 @@ const getCurrentUser = async (req, res) => {
       ? res
           .status(200)
           .json({ status: 200, data: currentUser, message: "user found" })
-      : res.status(404).json({ status: 404, messsage: "user not found" });
+      : res
+          .status(404)
+          .json({ status: 404, messsage: "current user not found" });
   } catch (err) {
     return res
       .status(500)

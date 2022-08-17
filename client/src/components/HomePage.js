@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { IoGameController } from "react-icons/io5";
 import { SearchBarContext } from "../context/SearchBarContext";
 import AllPosts from "./AllPosts";
-
-// Project Completed
+import { UserContext } from "../context/UserContext";
 
 const HomePage = () => {
+  const { updateFeed, currentUser } = useContext(UserContext);
   const [games, setGames] = useState();
   const [status, setStatus] = useState("loading");
   //get search state variable that was set by searchbar from useContext
@@ -29,7 +29,7 @@ const HomePage = () => {
         setGames(data.data);
         setStatus("idle");
       });
-  }, []);
+  }, [updateFeed]);
 
   if (status === "loading") {
     return (

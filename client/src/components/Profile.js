@@ -49,7 +49,6 @@ const Linkw = styled(NavLink)`
   text-decoration: none;
   color: black;
   width: max-content;
-
   :hover {
     cursor: pointer;
   }
@@ -85,10 +84,16 @@ const Divider = styled.div`
   justify-content: center;
   border-bottom: solid 1px var(--color-titles);
   margin: 10px;
-  max-width: 550px;
+  max-width: 830px;
   width: auto;
   margin-right: auto;
   margin-left: auto;
+  @media (max-width: 1190px) {
+    max-width: 530px;
+  }
+  @media (max-width: 900px) {
+    max-width: 160px;
+  }
 `;
 
 const ProfileContainer = styled.div`

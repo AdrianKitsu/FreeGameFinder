@@ -19,7 +19,7 @@ const UserFavs = () => {
         <Wrapper>
           <Container>Favorites</Container>
           <Div />
-          {currentUser?.favorites.map((favs) => {
+          {currentUser?.favorites?.map((favs) => {
             return (
               <li onClick={clearSearch}>
                 <LinkGame to={`/game/${favs?.id}`}>{favs?.title}</LinkGame>
@@ -53,7 +53,8 @@ const Div = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100%;
+  height: fit-content;
+  padding-bottom: 10px;
   max-width: 190px;
   width: 160px;
   position: absolute;

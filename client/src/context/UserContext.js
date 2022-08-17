@@ -8,6 +8,7 @@ export const UserContextProvider = ({ children }) => {
   //the input of the search bar will be store in here
   const { user, isAuthenticated } = useAuth0();
   const [currentUser, setCurrentUser] = useState(null);
+  const [updatePosts, setUpdatePosts] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -26,7 +27,9 @@ export const UserContextProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider
+      value={{ currentUser, setCurrentUser, updatePosts, setUpdatePosts }}
+    >
       {children}
     </UserContext.Provider>
   );

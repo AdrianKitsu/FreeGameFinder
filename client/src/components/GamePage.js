@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { IoGameController } from "react-icons/io5";
 import AddFavorites from "./AddFavorites";
 import { UserContext } from "../context/UserContext";
+import ReviewFunction from "./ReviewFunction";
 
 const GamePage = () => {
   //gameId is from path="/game/:game"
@@ -47,8 +48,6 @@ const GamePage = () => {
     );
   }
 
-  // // when pressing the add button
-
   const addFavs = (gameTitle) => {
     let UserId = currentUser.email;
 
@@ -73,14 +72,18 @@ const GamePage = () => {
               ...currentUser,
               favorites: [
                 ...currentUser?.favorites,
+                //adding url to POST to retrieve it in profile list of favorites
                 { title: gameTitle, id: gameId, url: game.thumbnail },
               ],
             });
           } else {
+            // copy array of favorites of current user without replacing entire array
             let copyFavorites = [...currentUser?.favorites];
+            // filters and removes specified game with same id
             const removedGame = copyFavorites.filter((fav) => {
               return fav.id !== gameId;
             });
+            //sets new favorites array with modified contents aka unfavorited game removed
             setCurrentUser({
               ...currentUser,
               favorites: removedGame,
@@ -149,16 +152,55 @@ const GamePage = () => {
               </ReleaseDate>
             </Info>
           </Container>
+          <ReviewContainer>
+            <P>Write a Review</P>
+            <Divider />
+            <ReviewFunction game={game} />
+          </ReviewContainer>
         </Game>
       </Wrapper>
     </>
   );
 };
 
+const ReviewContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const P = styled.p`
+  display: flex;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 25px;
+  color: #57575b;
+  font-family: var(--font-family-jost);
+`;
+
+const Divider = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 8px;
+  border-bottom: solid 1px var(--color-titles);
+  max-width: 830px;
+  width: auto;
+  @media (max-width: 1190px) {
+    max-width: 530px;
+  }
+  @media (max-width: 900px) {
+    max-width: 160px;
+  }
+`;
+
 const Container = styled.div``;
 
 const TopPart = styled.div`
   display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 30px;
 `;
 
@@ -264,23 +306,23 @@ const Desc = styled.div`
 `;
 
 const Wrapper = styled.div`
+  background-color: var(--color-main-background);
+  height: 100000000px;
+`;
+
+const Game = styled.div`
+  display: block;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
   background-color: var(--color-main-background);
-
   @media (max-width: 768px) {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
   }
-`;
-
-const Game = styled.div`
-  max-width: 100%;
-  max-height: fit-content;
 `;
 
 const Img = styled.img`

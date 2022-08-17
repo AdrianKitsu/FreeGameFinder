@@ -16,7 +16,7 @@ const {
   getGameByGenre,
 } = require("./handlers");
 const { favsList } = require("./FavoritesHandler");
-const { getPosts } = require("./postsHandlers");
+const { postPost, getPost, allPosts } = require("./postsHandlers");
 
 express()
   .use(function (req, res, next) {
@@ -50,9 +50,15 @@ express()
 
   .get("/api/games/:genre", getGameByGenre)
 
-  .post("/api/:user", getUser)
+  .post("/api/user", getUser)
 
   .patch("/api/:user/favorites", favsList)
+
+  .post("/api/post", postPost)
+
+  .get("/api/post/:id", getPost)
+
+  .get("/api/allposts", allPosts)
 
   .get("*", (req, res) => {
     res.status(404).json({
