@@ -21,6 +21,28 @@ const HomePage = () => {
     setNoOfElements(noOfElements + 4);
   };
 
+  // const API_KEY = process.env.API_KEY;
+  // const url =
+  //   "https://free-to-play-games-database.p.rapidapi.com/api/games?category=shooter";
+
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //     "X-RapidAPI-Key": `${API_KEY}`,
+  //     "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com",
+  //   },
+  // };
+
+  // useEffect(() => {
+  //   fetch(url, options)
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       setGames(json);
+  //       setStatus("idle");
+  //     })
+  //     .catch((err) => console.error("error:" + err));
+  // }, [updateFeed]);
+
   // get all games
   useEffect(() => {
     fetch(`/api/games`)
