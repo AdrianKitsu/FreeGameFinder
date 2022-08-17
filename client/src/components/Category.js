@@ -14,17 +14,17 @@ const Category = () => {
   const clearSearch = () => {
     setSearch("");
   };
+
   // load more games on homepage
   const [noOfElements, setNoOfElements] = useState(4);
   const loadMore = () => {
     setNoOfElements(noOfElements + 4);
   };
-
+  //games by genre
   useEffect(() => {
     fetch(`/api/games/${genre}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("genre", data.data);
         setGenres(data.data);
         setStatus("idle");
       });
@@ -39,12 +39,15 @@ const Category = () => {
       </LoadPage>
     );
   }
+
+  //search bar search criteria
   const filteredGames = genres.filter((game) => {
     if (game.title.toLowerCase().includes(search)) {
       return game;
     }
   });
 
+  //load more
   const slice = filteredGames.slice(0, noOfElements);
 
   return (

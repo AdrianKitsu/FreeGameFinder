@@ -6,12 +6,11 @@ import { NavLink } from "react-router-dom";
 const AllPosts = () => {
   const { updateFeed, currentUser, updatePosts, setUpdatePosts } =
     useContext(UserContext);
-
+  //grabs all posts
   useEffect(() => {
     fetch(`/api/allposts/`)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data);
         setUpdatePosts(response.data);
       });
   }, []);

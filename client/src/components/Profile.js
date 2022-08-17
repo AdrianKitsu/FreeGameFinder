@@ -15,7 +15,7 @@ const Profile = () => {
         <Favs>Favorites</Favs>
       </FavTitleContainer>
       <Divider />
-
+      {/* your favorited games */}
       <Wrap>
         {currentUser?.favorites.map((favs) => {
           return (

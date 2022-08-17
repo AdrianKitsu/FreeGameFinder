@@ -64,7 +64,6 @@ const allPosts = async (req, res) => {
     await client.connect();
     const db = client.db("Games");
     const posts = await db.collection("allposts").find().toArray();
-    console.log("hi", posts);
 
     posts.length <= 0
       ? res

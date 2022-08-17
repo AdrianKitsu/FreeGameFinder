@@ -48,9 +48,10 @@ const GamePage = () => {
     );
   }
 
+  //add game to favorited function
   const addFavs = (gameTitle) => {
     let UserId = currentUser.email;
-
+    // body is the information being sent to the backend aka (req.body)
     fetch(`/api/${UserId}/favorites`, {
       method: "PATCH",
       body: JSON.stringify({

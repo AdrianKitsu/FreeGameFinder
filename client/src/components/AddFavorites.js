@@ -1,4 +1,5 @@
 const AddFavorites = () => {
+  //this is the start icon
   return (
     <>
       <span className="mr-2"></span>

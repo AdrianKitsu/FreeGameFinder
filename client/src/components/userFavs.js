@@ -12,7 +12,7 @@ const UserFavs = () => {
   const clearSearch = () => {
     setSearch("");
   };
-
+  //list on the side of your favorited games
   if (isAuthenticated) {
     return (
       <>

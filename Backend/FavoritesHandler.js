@@ -18,10 +18,11 @@ const favsList = async (req, res) => {
   try {
     await client.connect();
     const db = client.db("Games");
-
+    //if the game is favorited already and button is pressed again it will be pulled from list of favs, else it is pushed into the list on mongo
     if (favorited) {
       await db
         .collection("users")
+        // url is not needed for pull, could've used only title as the game is found with one and then the entire game object is pulled from list
         .updateOne({ email: user }, { $pull: { favorites: { title, id } } });
       return res
         .status(200)

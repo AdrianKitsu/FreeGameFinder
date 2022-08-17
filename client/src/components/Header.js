@@ -15,7 +15,7 @@ const Header = () => {
   const clearSearch = () => {
     setSearch("");
   };
-
+  //if a user is logged in
   if (!isAuthenticated) {
     return (
       <>

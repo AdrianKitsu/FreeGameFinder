@@ -8,7 +8,7 @@ const GenresHeader = () => {
   const clearSearch = () => {
     setSearch("");
   };
-
+  //hard coded links to the different genres
   return (
     <Header>
       <Filter>

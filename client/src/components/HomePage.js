@@ -70,7 +70,7 @@ const HomePage = () => {
                 Looks like nothing matches your search...
               </Oops>
             ) : (
-              //display items based on what is serached in search bar will show everything if nothing is typed
+              //display items based on what is searched in search bar will show everything if nothing is typed
               slice.map((theGames) => {
                 return (
                   <Game onClick={clearSearch}>
@@ -92,6 +92,7 @@ const HomePage = () => {
           <p>Load More</p>
         </LoadBtn>
         <Posts>Posts</Posts>
+        {/* AllPosts imported */}
         <AllPosts />
       </Container>
     </>

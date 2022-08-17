@@ -7,13 +7,13 @@ const ReviewFunction = ({ game }) => {
   const { isAuthenticated } = useAuth0();
   const { currentUser, updatePosts, setUpdatePosts } = useContext(UserContext);
   const [value, setValue] = useState("");
-  const [count, setCount] = useState(25);
+  const [count, setCount] = useState(30);
 
+  //fetches posts for specified game
   useEffect(() => {
     fetch(`/api/post/${game.id}`)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data);
         setUpdatePosts(response.data);
       });
   }, []);
@@ -36,12 +36,11 @@ const ReviewFunction = ({ game }) => {
     fetch(`/api/post/${game.id}`)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data);
         setUpdatePosts(response.data);
       });
 
     evt.target.reset();
-    setCount(25);
+    setCount(30);
   };
 
   if (isAuthenticated) {
@@ -55,7 +54,7 @@ const ReviewFunction = ({ game }) => {
             placeholder={`How did you find this game?`}
             onChange={(evt) => {
               setValue(evt.target.value);
-              setCount(25 - evt.target.value.length);
+              setCount(30 - evt.target.value.length);
             }}
           />
           <CountBut>
