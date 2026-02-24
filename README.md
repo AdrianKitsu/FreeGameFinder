@@ -4,7 +4,7 @@
 
 
 
-The Free Game Finder website was a project designed to leverage the Free Games API, with the goal of creating an easy, straightforward user experience where users can review, rate, favorite, and search for free games.
+Built in 2022, the Free Game Finder website was an independent project designed to leverage the Free Games API, with the goal of creating an easy, straightforward user experience where users can review, rate, favorite, and search for free games.
 
 ---
 
