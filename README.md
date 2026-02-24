@@ -43,9 +43,9 @@ The Free Game Finder website was a project designed to leverage the Free Games A
 ---
 
 ## **Back-End Features**
-- ### User, Reviews, encrypted user passwords, and Game Collection
+- ### Users, Reviews, encrypted user passwords, and Game Collection
+- ### RESTful APIs
 ![backend](https://github.com/user-attachments/assets/ffbe877c-b840-4d23-ab90-ac195e035901)
 
-- ### RESTful APIs
 
 ---
